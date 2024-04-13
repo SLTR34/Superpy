@@ -1,0 +1,87 @@
+
+    SuperPy - Inventory Management System
+
+    Requirements
+    python
+    CSV
+    matplotlib
+    rich
+    argparse
+    datetime
+    sys
+
+
+    Commands:
+
+      buy                Buy a product
+      sell               Sell a product
+      report             Generate reports
+      export             Export data to CSV
+      advance_time       Advance or reverse the current date
+
+    Examples:
+
+    For help:
+        python main.py -h
+
+    Buy a product
+    This function is for buying a product
+    Usage: main.py buy [-h] --product-name PRODUCT_NAME --price PRICE [--amount AMOUNT] --exp-date EXP_DATE
+
+    Example:
+        python main.py buy --product-name banana --price 2.8  --amount 1 --exp-date 2023-06-30
+
+    Sell a product
+    This is a function for selling a product
+    Usage: main.py sell [-h] --product-name PRODUCT_NAME --price PRICE
+
+    Example:
+        python main.py sell --product-name orange --price 2
+
+    Generate inventory report
+    This is a function for generate a inventory report
+    Usage: main.py report inventory [-h] [--now]
+
+    Example:
+        python main.py report inventory --now
+
+    Generate revenue report
+    This is a function for generate a revenue report
+    Usage: main.py report revenue [-h] --start-date START_DATE --end-date END_DATE [--visualize]
+
+    Example:
+        python main.py report revenue --start-date 2023-05 --end-date 2023-06
+
+    Generate profit report
+    This is a function for generate a profit report
+    Usage: main.py report profit [-h] --start-date START_DATE --end-date END_DATE
+
+    Example:
+        python main.py report profit --start-date 2023-05 --end-date 2023-06
+
+    Visualize revenue statistics
+    This is a function for visualize a revenue statistics
+    Usage: main.py report revenue [-h] --start-date START_DATE --end-date END_DATE [--visualize]
+
+    Example:
+        python main.py report revenue --start-date 2023-05 --end-date 2023-06 --visualize
+
+    Change the time
+    This is a function for changing time
+    Usage: main.py advance_time [-h] days
+
+    Example:
+        python main.py advance_time 2 ( changes the date with 2 days ahead )
+        python main.py advance_time -2 ( changes the date with -2 days back )
+
+    Set the date
+    This is a function for changing the date
+    Usage: main.py set_date [-h] year month day 
+
+    Example:
+        python main.py set_date 2023-10-2
+        
+    
+    Voor een meer gedetailleerde uitleg kunt u het user_guide.txt bestand bezoeken voor specificaties van de opdrachtregels en hun doeleinden.
+
+    
