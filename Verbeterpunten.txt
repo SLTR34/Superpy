@@ -1,0 +1,5 @@
+1.  function set_date toevoegen.
+2.  Aantallen niet mogelijk bij verkoop.
+3.  Invertory report niet goed.
+4.  Report.md schrijven.
+5.  als er van een product maar 1 wordt verkocht wordt alles verkocht.
