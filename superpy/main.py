@@ -135,6 +135,7 @@ def main():
     # Inventory Report Subcommand
     inventory_report_parser = report_subparsers.add_parser("inventory", help="Generate inventory report")
     inventory_report_parser.add_argument("--now", action="store_true", help="Generate report for the current date")
+    inventory_report_parser.add_argument("--start_date", help="Specify start date for the inventory report")
 
     # Revenue Report Subcommand
     revenue_report_parser = report_subparsers.add_parser("revenue", help="Generate revenue report")
@@ -173,7 +174,7 @@ def main():
 
     # Command om te verkopen.
     elif args.command == "sell":
-        sell_product(args.product_name, args.price)
+        sell_product(args.product_name, args.amount, args.price)
 
     # Command voor reports.
     elif args.command == "report":

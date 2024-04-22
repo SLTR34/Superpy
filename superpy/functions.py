@@ -9,14 +9,15 @@ from rich.console import Console
 from rich.table import *
 import sys
 
-# files system
+# file system
 INVENTORY_FILE = "inventory.csv"
 SALES_FILE = "sales.csv"
 DATE_FILE = "date.txt"
 USAGE_GUIDE_FILE = "usage_guide.txt"
 
-
+ 
 def read_csv_file(file_path):
+    """Read file function"""
     rows = []
     with open(file_path, "r") as file:
         reader = csv.DictReader(file)
@@ -26,25 +27,29 @@ def read_csv_file(file_path):
 
 
 def write_csv_file(file_path, rows, fieldnames):
+    """Write file function"""
     with open(file_path, "w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
-
+# 
 def get_current_date():
+    """Get current date function"""
     with open(DATE_FILE, "r") as file:
         date_str = file.read().strip()
         return datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
 
-
+# 
 def set_current_date(date):
+    """Set current date"""
     date_str = date.strftime("%Y-%m-%d")
     with open(DATE_FILE, "w") as file:
         file.write(date_str)
 
-
+# 
 def advance_time(days):
+    """Advance date"""
     try:
         with open("date.txt", "r") as file:
             current_date = datetime.datetime.strptime(file.read().strip(), "%Y-%m-%d")
@@ -59,13 +64,18 @@ def advance_time(days):
     except FileNotFoundError:
         print("date.txt file not found.")
 
+# 
 def set_date(year, month, day):
+    """Set date function"""
     new_date = datetime.datetime(year, month, day)
     with open(DATE_FILE, "w") as file:
         file.write(new_date.strftime("%Y-%m-%d"))
     print(f"Date changed to: {new_date.strftime('%Y-%m-%d')}")
 
+
+# 
 def buy_product(product_name, price, amount, expiration_date):
+    """Buy function"""
     inventory = read_csv_file(INVENTORY_FILE)
     next_id = max([int(item["id"]) for item in inventory], default=0) + 1
     item = {
@@ -82,53 +92,56 @@ def buy_product(product_name, price, amount, expiration_date):
         f"You want to buy {amount} {product_name} for ${price} each, expiring on {expiration_date}"
     )
 
+# 
+def sell_product(product_name, amount, price):
+    """Sell function"""
+    # Convert amount and price to integers en floats (round).
+    amount = int(amount)
+    # Convert the seeling price to two decimals.
+    price = round(price, 2)
 
-def sell_product(product_name, price, quantity_to_sell=1):
     inventory = read_csv_file(INVENTORY_FILE)
     sales = read_csv_file(SALES_FILE)
     current_date = get_current_date()
 
-    item = next(
-        (item for item in inventory if item["product_name"] == product_name), None)
+    item = next((item for item in inventory if item["product_name"] == product_name), None)
     if item:
-        expiration_date = datetime.datetime.strptime(
-            item["expiration_date"], "%Y-%m-%d"
-        ).date()
+        expiration_date = datetime.datetime.strptime(item["expiration_date"], "%Y-%m-%d").date()
         if expiration_date >= current_date:
-            if int(item["amount"]) >= quantity_to_sell:
-               total_price = price * quantity_to_sell
-               
-               for _ in range(quantity_to_sell):
-                    next_id = max([int(sale["id"]) for sale in sales], default=0) + 1
-                    sale = {
-                        "id": str(next_id),
-                        "product_name": str(product_name),
-                        "bought_id": item["id"],
-                        "sell_date": current_date.strftime("%Y-%m-%d"),
-                        "sell_price": str(price),
-                        "quantity_sold": quantity_to_sell,
-                        "total_price": total_price
+            if int(item["amount"]) > amount:
+                total_price = price * amount
+                next_sale_id = max(int(sale["id"]) for sale in sales) + 1 if sales else 1
+                sale = {
+                    "id": str(next_sale_id),
+                    "product_name": str(product_name),
+                    "bought_id": item["id"],
+                    "sell_date": current_date.strftime("%Y-%m-%d"),
+                    "sell_price": str(price),
+                    "quantity_sold": amount,
+                    "total_price": total_price
                 }
-                    sales.append(sale)
-                    
-            # Update inventory quantity
-                    item["amount"] = str(int(item["amount"]) - quantity_to_sell)
-                    inventory.remove(item)
-                    
-                    write_csv_file(INVENTORY_FILE, inventory, item.keys())
-                    write_csv_file(SALES_FILE, sales, sale.keys())
+                sales.append(sale)
 
-    
-                    print(f"{quantity_to_sell} of product '{product_name}' sold successfully.")
+                # Update inventory quantity and write to file
+                for _ in range(amount):
+                    item["amount"] = str(int(item["amount"]) - 1)
+                    if int(item["amount"]) == 0:
+                        inventory.remove(item)
+                    write_csv_file(INVENTORY_FILE, inventory, item.keys())
+
+                write_csv_file(SALES_FILE, sales, sale.keys())
+                
+                print(f"{amount} of product '{product_name}' sold successfully.")
             else:
                 print("ERROR: Insufficient quantity in stock")
-        else:    
+        else:
             print("ERROR: Product expired and cannot be sold.")
     else:
         print("ERROR: Product not in stock.")
 
-
+# 
 def generate_inventory_report(report_date):
+    """Generate inventory report"""
     inventory = read_csv_file(INVENTORY_FILE)
 
     print(f"Inventory Report - {report_date}\n")
@@ -143,8 +156,9 @@ def generate_inventory_report(report_date):
     total_items = sum(int(item.get("amount", 0)) for item in inventory)
     print(f"\nTotal Items: {total_items}")
 
-
+# 
 def generate_revenue_report(start_date, end_date):
+    """Generate revenue report"""
     sales = read_csv_file(SALES_FILE)
     console = Console()
 
@@ -158,8 +172,9 @@ def generate_revenue_report(start_date, end_date):
         f"Revenue from {start_date.strftime('%Y-%m')} to {end_date.strftime('%Y-%m')}: {total_revenue}"
     )
 
-
+# 
 def generate_profit_report(start_date, end_date):
+    """Generate profit report"""
     inventory = read_csv_file(INVENTORY_FILE)
     sales = read_csv_file(SALES_FILE)
     console = Console()
@@ -185,8 +200,9 @@ def generate_profit_report(start_date, end_date):
         f"Profit from {start_date.strftime('%Y-%m')} to {end_date.strftime('%Y-%m')}: {total_profit}"
     )
 
-
+# 
 def export_report(report_type, start_date, end_date, export_file):
+    """Export report"""
     if report_type == "inventory":
         inventory = read_csv_file(INVENTORY_FILE)
         rows = []
@@ -233,8 +249,9 @@ def export_report(report_type, start_date, end_date, export_file):
     else:
         print("ERROR: Invalid report type.")
 
-
+# 
 def visualize_statistics(report_type, start_date, end_date):
+    """Visualize report"""
     if report_type == "revenue":
         sales = read_csv_file(SALES_FILE)
         x = []
