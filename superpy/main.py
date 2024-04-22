@@ -159,7 +159,7 @@ def main():
     advance_time_parser = subparsers.add_parser("advance_time", help="Advance or reverse the current date")
     advance_time_parser.add_argument("days", type=int, help="Number of days to advance (positive) or reverse (negative) the current date")
 
-    # set date Command
+    # Set date Command
     set_date_parser = subparsers.add_parser("set_date", help="Set the current date")
     set_date_parser.add_argument("year", type=int, help="Year")
     set_date_parser.add_argument("month", type=int, help="Month")
