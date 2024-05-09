@@ -33,35 +33,36 @@
 
     Sell a product
     This is a function for selling a product
-    Usage: main.py sell [-h] --product-name PRODUCT_NAME --price PRICE
+    Usage: main.py sell [-h] --product-name PRODUCT_NAME --amount AMOUNT --price PRICE
 
     Example:
-        python main.py sell --product-name orange --price 2
+        python main.py sell --product-name orange --amount 2 --price 2
 
     Generate inventory report
     This is a function for generate a inventory report
-    Usage: main.py report inventory [-h] [--now]
+    Usage: main.py report inventory [-h] [--now] [--start_date Year-Month-Day]
 
     Example:
         python main.py report inventory --now
+        python main.py report inventory --start_date 2023-06-30
 
     Generate revenue report
     This is a function for generate a revenue report
-    Usage: main.py report revenue [-h] --start-date START_DATE --end-date END_DATE [--visualize]
+    Usage: main.py report revenue [-h] --start-date Year/month --end-date Year/month [--visualize]
 
     Example:
         python main.py report revenue --start-date 2023-05 --end-date 2023-06
 
     Generate profit report
     This is a function for generate a profit report
-    Usage: main.py report profit [-h] --start-date START_DATE --end-date END_DATE
+    Usage: main.py report profit [-h] --start-date Year/month --end-date Year/month
 
     Example:
         python main.py report profit --start-date 2023-05 --end-date 2023-06
 
     Visualize revenue statistics
     This is a function for visualize a revenue statistics
-    Usage: main.py report revenue [-h] --start-date START_DATE --end-date END_DATE [--visualize]
+    Usage: main.py report revenue [-h] --start-date Year/month --end-date Year/month [--visualize]
 
     Example:
         python main.py report revenue --start-date 2023-05 --end-date 2023-06 --visualize

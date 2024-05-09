@@ -24,7 +24,6 @@ from functions import *
 # Uitleg SuperPy programma. 
 def create_usage_guide():
     usage_guide = """
-   
     SuperPy - Inventory Management System
 
     Requirements
@@ -66,28 +65,29 @@ def create_usage_guide():
 
     Generate inventory report
     This is a function for generate a inventory report
-    Usage: main.py report inventory [-h] [--now]
+    Usage: main.py report inventory [-h] [--now] [--start_date Year-Month-Day]
 
     Example:
         python main.py report inventory --now
+        python main.py report inventory --start_date 2023-06-30
 
     Generate revenue report
     This is a function for generate a revenue report
-    Usage: main.py report revenue [-h] --start-date START_DATE --end-date END_DATE [--visualize]
+    Usage: main.py report revenue [-h] --start-date Year/month --end-date Year/month [--visualize]
 
     Example:
         python main.py report revenue --start-date 2023-05 --end-date 2023-06
 
     Generate profit report
     This is a function for generate a profit report
-    Usage: main.py report profit [-h] --start-date START_DATE --end-date END_DATE
+    Usage: main.py report profit [-h] --start-date Year/month --end-date Year/month
 
     Example:
         python main.py report profit --start-date 2023-05 --end-date 2023-06
 
     Visualize revenue statistics
     This is a function for visualize a revenue statistics
-    Usage: main.py report revenue [-h] --start-date START_DATE --end-date END_DATE [--visualize]
+    Usage: main.py report revenue [-h] --start-date Year/month --end-date Year/month [--visualize]
 
     Example:
         python main.py report revenue --start-date 2023-05 --end-date 2023-06 --visualize
@@ -100,15 +100,20 @@ def create_usage_guide():
         python main.py advance_time 2 ( changes the date with 2 days ahead )
         python main.py advance_time -2 ( changes the date with -2 days back )
 
+    Set the date
+    This is a function for changing the date
+    Usage: main.py set_date [-h] year month day 
+
+    Example:
+        python main.py set_date 2023-10-2
+        
     
     Voor een meer gedetailleerde uitleg kunt u het user_guide.txt bestand bezoeken voor specificaties van de opdrachtregels en hun doeleinden.
 
     
-
-    """
     with open(USAGE_GUIDE_FILE, "w") as file:
         file.write(usage_guide)
-
+    """
 
 def main():
     # Implementen van argparse.
